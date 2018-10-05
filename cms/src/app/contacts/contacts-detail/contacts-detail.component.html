@@ -1,11 +1,11 @@
 <div class="panel panel-default">
   <div class="panel-heading">
       <div class="row" style="margin-top: -14px;">
-          <h2><span class="pull-left title" style="padding-left: 10px;">{{ contacts.name}}</span></h2>
+          <h2 style="padding-left: 10px;"><span class="pull-left title" style="padding-left: 10px;"></span>{{ contacts.name }}</h2>
           <span class="pull-left">
               <img class="img-responsive"
-                   [src]="contact?.imageUrl"
-                   style="max-width: 50%; float: right;" />
+                   [src]="contacts?.imageUrl"
+                   style="max-width: 50%; padding-left: 10px;" />
             </span>
           <a class="btn btn-danger pull-right" style="margin-right: 10px;">Delete</a>
           <a class="btn btn-primary pull-right" style="margin-right: 10px;">Edit</a>
@@ -16,9 +16,9 @@
        <div class="col-xs-12">
          
            <div class="pull-left">
-              <span class="list-group-item-heading" style="font-weight: bold;">Email: </span>
+              <span class="list-group-item-heading" style="font-weight: bold;">Email: {{ contacts.email }} </span>
               <br>
-              <span class="list-group-item-heading" style="font-weight: bold;">Phone: </span>
+              <span class="list-group-item-heading" style="font-weight: bold;">Phone: {{ contacts.phone }} </span>
             </div>
          
       </div>
