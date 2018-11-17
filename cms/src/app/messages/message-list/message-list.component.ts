@@ -18,8 +18,8 @@ messages: Message[] = []
     this.messages = this.messageService.getMessages();
     this.messageService.messageChangeEvent
       .subscribe(
-        (messages: Message[]) => {
-          this.messages = messages;
+        (message: Message[]) => {
+          this.messages = message;
         }
       );
   }
