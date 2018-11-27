@@ -9,15 +9,15 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class MessagesService {
-  messageChangeEvent = new EventEmitter<Message[]>();
+ // messageChangeEvent = new EventEmitter<Message[]>();
   messages: Message[] = [];
   maxMessageId: Number;
  messageListChangedEvent = new Subject<Message[]>();
 
   constructor(private http: HttpClient,) {
    // this.messages = MOCKMESSAGES;
-   this.maxMessageId = this.getMaxId();  
-   this.getMessages();
+  //  this.maxMessageId = this.getMaxId();  
+  //  this.getMessages();
   }
 
 
@@ -29,7 +29,7 @@ export class MessagesService {
   //   return this.messages.slice();
   // }
 
-  getMessages(): Message[] {
+  getMessages() {
     this.http.get('https://natethornecms.firebaseio.com/messages.json')
       .subscribe(
         //success function
@@ -42,7 +42,7 @@ export class MessagesService {
     (error: any) => {
       console.log(error);
     }
-    return this.messages.slice();
+    
   }
 
   getMessage(id: string): Message{
@@ -56,7 +56,7 @@ export class MessagesService {
 
   addMessage(message: Message){
     this.messages.push(message);
-    this.messageChangeEvent.emit(this.messages.slice());
+    this.messageListChangedEvent.next(this.messages.slice());
   }
 
   getMaxId(): number {

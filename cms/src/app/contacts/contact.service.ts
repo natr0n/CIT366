@@ -1,17 +1,16 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { Contact } from './contact.model';
-import { MOCKCONTACTS } from './MOCKCONTACTS';
 import { Subject } from 'rxjs';
 import {HttpClient, HttpHeaders, HttpResponse, HttpRequest} from "@angular/common/http";
 
 
 @Injectable()
 export class ContactService {
-  contactSelectedEvent = new EventEmitter<Contact[]>();
-  contactChangedEvent = new EventEmitter<Contact[]>();
+  //contactSelectedEvent = new EventEmitter<Contact[]>();
+  //contactChangedEvent = new EventEmitter<Contact[]>();
   contactListChangedEvent = new Subject<Contact[]>();
   maxContactId: number;
-  contacts: Contact[] = [];
+  private contacts: Contact[] = [];
 
   
   constructor(private http: HttpClient,) { 
@@ -34,12 +33,14 @@ export class ContactService {
 
 
 
-    getContacts(): Contact[] {
+    getContacts() {
       this.http.get('https://natethornecms.firebaseio.com/contacts.json')
         .subscribe(
           //success function
           (contacts: Contact[]) => {
+            
             this.contacts = contacts;
+            console.log(this.contacts);
             this.maxContactId = this.getMaxId();
             this.contactListChangedEvent.next(this.contacts.slice())
           });
@@ -47,15 +48,17 @@ export class ContactService {
       (error: any) => {
         console.log(error);
       }
-      return this.contacts.slice();
+
     }
 
   getContact(id: string): Contact {
+    console.log(this.contacts);
+    if (this.contacts.length > 0 ) {
     for(let contact of this.contacts) {
       if (contact.id === id) {
         return contact;
       }
-    }
+    }}
     return null;
   }
 

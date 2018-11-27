@@ -5,6 +5,7 @@
   <span class="pull-right">
     <img class="img-responsive"
          [src]="contact?.imageUrl"
-         style="max-width: 50%; float: right;" />
+         style="max-width: 50%; float: right;"
+         *ngIf="contact.imageUrl" />
   </span>
 </a>
