@@ -1,13 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { Contact } from './contact.model';
 import { ContactService } from './contact.service';
 
+@Injectable({
+
+  providedIn: 'root'
+
+})
 @Component({
   selector: 'cms-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.css'],
-  providers: [ContactService]
+  // providers: [ContactService]
 })
+
+
 export class ContactsComponent implements OnInit {
 // selectedContact: Contact;
 
