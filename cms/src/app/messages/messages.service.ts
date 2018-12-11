@@ -30,19 +30,18 @@ export class MessagesService {
   // }
 
   getMessages() {
-    this.http.get('https://natethornecms.firebaseio.com/messages.json')
+    this.http.get<{message: String, messages: Message[]}>('http://localhost:3000/messages')
       .subscribe(
         //success function
-        (messages: Message[]) => {
-          this.messages = messages;
-          this.maxMessageId = this.getMaxId();
+        (messagesData) => {
+          this.messages = messagesData.messages;
+          //this.maxMessageId = this.getMaxId();
           this.messageListChangedEvent.next(this.messages.slice())
         });
     //error function
     (error: any) => {
       console.log(error);
     }
-    
   }
 
   getMessage(id: string): Message{
@@ -54,13 +53,24 @@ export class MessagesService {
     return null;
   }
 
-  addMessage(message: Message){
-    if (!message) {
+  addMessage(newMessage: Message){
+    if (!newMessage) {
       return;
     }
-    this.messages.push(message);
-    //this.messageListChangedEvent.next(this.messages.slice());
-    this.storeMessages();
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+   
+
+    this.http.post<{message: String, messages: Message}>('http://localhost:3000/messages', newMessage, { headers: headers })
+      .subscribe(
+        (responseData) => {
+          this.messages.push(responseData.messages);
+          this.messageListChangedEvent.next(this.messages.slice());
+        });
+    
+    // this.messages.push(message);
+    // this.storeMessages();
   }
 
   getMaxId(): number {
@@ -78,7 +88,7 @@ export class MessagesService {
   storeMessages() {
     this.messages = JSON.parse(JSON.stringify(this.messages));
     const header = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.http.put('https://natethornecms.firebaseio.com/messages.json', this.messages, { headers: header})
+    this.http.put('http://localhost:3000/messages', this.messages, { headers: header})
     .subscribe(
       (messages: Message[]) => {
         this.messageListChangedEvent.next(this.messages.slice());
